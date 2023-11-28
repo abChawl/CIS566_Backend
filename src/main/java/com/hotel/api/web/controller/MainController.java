@@ -1,12 +1,23 @@
 package com.hotel.api.web.controller;
 
-import com.hotel.api.web.model.*;
-import com.hotel.api.web.service.HotelService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hotel.api.web.model.ApiResponse;
+import com.hotel.api.web.model.LoginRequest;
+import com.hotel.api.web.model.Room;
+import com.hotel.api.web.model.User;
+import com.hotel.api.web.service.HotelService;
+import com.hotel.api.web.service.RoomService;
 
 @RestController
 public class MainController {
@@ -67,10 +78,19 @@ public class MainController {
     }
 
 
+    @Autowired
+    private RoomService roomService;
 
+    @GetMapping("/{roomId}")
+    public ResponseEntity<Room> getRoom(@PathVariable String roomId) {
+        Room room = roomService.getRoomById(roomId);
+        return ResponseEntity.ok(room);
+    }
 
-
-
-
+    @GetMapping
+    public ResponseEntity<List<Room>> getAllRooms() {
+        List<Room> rooms = roomService.getAllRooms();
+        return ResponseEntity.ok(rooms);
+    }
 
 }
